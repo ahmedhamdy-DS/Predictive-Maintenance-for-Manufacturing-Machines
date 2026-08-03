@@ -28,7 +28,7 @@ The dataset contains **10,000 rows** with **14 features**, including:
 | Tool wear [min] | Time machine has been operating before maintenance |
 | Rotational speed [rpm] | Speed of the motor |
 
-![Machine Sensors Overview](images/machine_sensors_summary.png)
+
 
 ---
 
