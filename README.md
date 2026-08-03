@@ -13,7 +13,7 @@ The goal is to provide **actionable insights** to reduce downtime, improve maint
 
 ---
 
-## 📊 Data Description
+##  Data Description
 The dataset contains **10,000 rows** with **14 features**, including:  
 - Sensor readings: `Air temperature [K]`, `Process temperature [K]`, `Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]`  
 - Product type: `Type` (L, M, H)  
@@ -75,7 +75,7 @@ Key insights:
 
 ---
 
-## 💡 Insights & Interpretation
+##  Insights & Interpretation
 - **Tool wear [min]** is the strongest predictor of failure  
 - **Torque [Nm]** and **Rotational speed [rpm]** also influence failure probability  
 - Failures occur mostly in specific operating conditions → **high-strain zones**  
@@ -105,7 +105,7 @@ See `requirements.txt` for full package list
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 1. Clone the repository:  
 ```bash
 git clone https://github.com/yourusername/manufacturing-predictive-maintenance.git
