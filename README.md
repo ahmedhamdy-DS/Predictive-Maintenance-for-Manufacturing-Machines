@@ -153,4 +153,4 @@ Ahmed Hamdy Abdelaziz
 
 - GitHub: [@ahmedhamdy-DS](https://github.com/ahmedhamdy-DS)
 - Portfolio: [my-web-3ciq.vercel.app](https://my-web-3ciq.vercel.app)
-- LinkedIn: [linkedin.com/in/your-profile](https://www.linkedin.com/in/ahmed-hamdy-4569a8360/)
+- LinkedIn: [linkedin.com/in/My-profile](https://www.linkedin.com/in/ahmed-hamdy-4569a8360/)
