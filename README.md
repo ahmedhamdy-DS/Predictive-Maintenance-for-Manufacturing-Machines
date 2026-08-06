@@ -1,111 +1,157 @@
 # Predictive Maintenance for Manufacturing Machines
 
-##  Project Overview
-This project focuses on **predicting machine failures** using sensor data from manufacturing machines.  
-The goal is to provide **actionable insights** to reduce downtime, improve maintenance planning, and save costs.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Dashboard-brightgreen)](https://share.google/Bc6eyqEl7dDNDKxcY)
+
+A production-ready machine learning project for predicting manufacturing equipment failures from sensor data, helping reduce downtime, improve maintenance planning, and lower operational costs.
+
+---
+![Dashboard Screenshot](assets\Screenshot 2026-08-06 154115.png)
+
+## Project Overview
+
+This project builds both **binary classification** and **multi-class classification** solutions for predictive maintenance. The binary task predicts whether a machine will fail in the near future, while the multi-class task identifies the likely failure type. The solution is designed around key operational signals such as temperature, torque, rotational speed, and tool wear.
+
+## Problem Statement
+
+Manufacturing environments need early warnings before equipment breaks down. This project addresses that need by:
+
+- Predicting whether a failure will occur soon.
+- Identifying the likely failure category when a failure happens.
+- Highlighting the most important sensor and operational features for decision-making.
+
+## Live Demo
+
+Explore the deployed Streamlit dashboard here:
+
+[Open the Live Demo](https://share.google/Bc6eyqEl7dDNDKxcY)
 
 ---
 
-##  Problem Statement
-- Predict whether a machine will **fail in the near future** (**binary classification**)  
-- Identify the **type of failure** for actionable maintenance planning (**multi-class classification**)  
-- Understand **key features influencing machine failure**, like temperature, torque, rotational speed, and tool wear
+## System Architecture
+
+```mermaid
+flowchart LR
+    A[Sensor and operational data] --> B[Data ingestion]
+    B --> C[Data preprocessing]
+    C --> D[Feature engineering]
+    D --> E[Model training]
+    E --> F[Model evaluation]
+    F --> G[Streamlit dashboard]
+    G --> H[Maintenance decision support]
+
+    C --> C1[Numeric imputation and scaling]
+    C --> C2[Categorical imputation and one-hot encoding]
+```
+
+## Data Description
+
+| Item | Details |
+|---|---|
+| Dataset size | 10,000 rows |
+| Feature count | 14 features |
+| Target type | Binary target: 0 = Normal, 1 = Failure |
+| Product types | L, M, H |
+| Core sensor features | Air temperature, Process temperature, Rotational speed, Torque, Tool wear |
+| Failure types | Heat Dissipation, Power, Overstrain |
+
+## Key Exploratory Insights
+
+The dataset is highly imbalanced, with failures making up about 3.4% of all observations. Heat Dissipation and Power Failure are the most frequent failure modes, which makes class imbalance a central modeling challenge. Tool wear is the strongest predictor of failure, and rotational speed shows a negative correlation with torque.
+
+Failures also cluster in two operational regions: low speed with high torque, and high speed with low torque. Product type L shows the highest failure rate, making it an important segment for maintenance prioritization.
 
 ---
 
-## 📊 Data Description
-The dataset contains **10,000 rows** with **14 features**, including:  
-- Sensor readings: `Air temperature [K]`, `Process temperature [K]`, `Rotational speed [rpm]`, `Torque [Nm]`, `Tool wear [min]`  
-- Product type: `Type` (L, M, H)  
-- Target:  
-  - `Target` → 0 = Normal, 1 = Failure  
-  - `Failure Type` → Heat Dissipation, Power, Overstrain, etc.  
+## Data Preprocessing & Modeling Pipeline
 
-**Example Table:**
-| Feature | Description |
-|---------|-------------|
-| Air temperature [K] | Ambient temperature |
-| Tool wear [min] | Time machine has been operating before maintenance |
-| Rotational speed [rpm] | Speed of the motor |
+```mermaid
+flowchart TD
+    A[Raw data] --> B[Split features]
+    B --> C[Numeric features]
+    B --> D[Categorical features]
 
-![Machine Sensors Overview](images/machine_sensors_summary.png)
+    C --> C1[Median imputation]
+    C1 --> C2[Standard scaling]
 
----
+    D --> D1[Most frequent imputation]
+    D1 --> D2[One-hot encoding]
 
-##  Exploratory Data Analysis (EDA)
-Key insights:  
-- **Target Distribution:** Only ~3.4% of events are failures → dataset is highly imbalanced  
-- **Failure Types:** Most frequent: `Heat Dissipation Failure` & `Power Failure`  
-- **Feature Distributions:**  
-  - Outliers detected in `Torque` and `Rotational speed`  
-  - Tool wear is the strongest predictor of failure  
-- **Correlations:**  
-  - Negative correlation between `Rotational speed` and `Torque`  
-  - Failures cluster in **Low Speed/High Torque** and **High Speed/Low Torque** regions  
+    C2 --> E[Combined feature matrix]
+    D2 --> E
+    E --> F[Model training]
+    F --> G[Prediction and evaluation]
+```
 
-**Visualizations:**  
-- Distribution plots, boxplots, heatmaps  
-- Failure clusters scatter plots  
-- Failure rate by product type  
+## Preprocessing Pipeline
 
----
+| Feature group | Processing |
+|---|---|
+| Numeric features | Median imputation + standard scaling |
+| Categorical features | Most frequent imputation + one-hot encoding |
+| Target variable | Binary classification target |
+| Evaluation focus | Robustness under class imbalance |
 
-##  Models & Training
-**Preprocessing Pipeline:**  
-- Numeric features → median imputation + standard scaling  
-- Categorical features → most frequent imputation + OneHotEncoding  
+## Features Used
 
-**Models Tested:**  
-- Logistic Regression  
-- Random Forest, ExtraTrees  
-- GradientBoosting, AdaBoost  
-- XGBoost, LightGBM, CatBoost  
+| Feature | Type | Role |
+|---|---|---|
+| Air temperature [K] | Numeric | Operating condition |
+| Process temperature [K] | Numeric | Operating condition |
+| Rotational speed [rpm] | Numeric | Machine behavior |
+| Torque [Nm] | Numeric | Load indicator |
+| Tool wear [min] | Numeric | Wear and degradation signal |
+| Product type | Categorical | Operational context |
+| Additional recorded variables | Mixed | Supporting predictive signal |
 
-**Evaluation Metrics:**  
-- ROC-AUC, F1 Score (Macro), Recall, Precision  
-- ROC-AUC curves for model comparison  
+## Models Tested
 
-**Key Results:**  
-| Model | AUC | F1 (Macro) | Recall (Macro) | Precision (Macro) |
-|-------|-----|------------|----------------|------------------|
+| Model | Purpose |
+|---|---|
+| Logistic Regression | Linear baseline |
+| Random Forest | Bagged tree benchmark |
+| ExtraTrees | Highly randomized tree ensemble |
+| GradientBoosting | Boosted tree baseline |
+| AdaBoost | Adaptive boosting baseline |
+| XGBoost | Gradient boosting ensemble |
+| LightGBM | Efficient gradient boosting ensemble |
+| CatBoost | Categorical-aware boosting ensemble |
+
+## Model Performance
+
+| Model | AUC | F1 Macro | Recall Macro | Precision Macro |
+|---|---:|---:|---:|---:|
 | XGBoost | 0.978 | 0.872 | 0.882 | 0.862 |
-| LightGBM | 0.978 | 0.841 | 0.875 | 0.813 |
-| GradientBoosting | 0.977 | 0.855 | 0.798 | 0.942 |
-| CatBoost | 0.977 | 0.850 | 0.862 | 0.839 |
+| LightGBM | 0.978 | 0.841 | — | — |
+| GradientBoosting | 0.977 | — | — | — |
+| CatBoost | 0.977 | — | — | — |
 
----
+XGBoost is the best overall model based on the reported metrics. It delivers the strongest balance of ranking quality and class-level performance, which is especially valuable in an imbalanced maintenance setting.
 
-## 💡 Insights & Interpretation
-- **Tool wear [min]** is the strongest predictor of failure  
-- **Torque [Nm]** and **Rotational speed [rpm]** also influence failure probability  
-- Failures occur mostly in specific operating conditions → **high-strain zones**  
-- **Product type L** has the highest failure rate proportionally, despite being the most common  
-- Predictive models allow **maintenance teams to schedule interventions proactively**  
+## Insights and Recommendations
 
----
+The analysis shows that tool wear is the strongest predictor, so it should receive the highest monitoring priority. Product type L has the highest failure rate, which suggests it may require stricter inspection schedules or tailored operating limits. The most practical interventions are predictive maintenance scheduling, maintenance prioritization, and operational guideline updates to avoid high-strain zones.
 
-##  Potential Solutions
-1. **Predictive Maintenance:**  
-   - Schedule interventions before failures occur based on predicted probability  
-   - Focus on machines at risk of Heat Dissipation or Power Failure  
+## How to Run
 
-2. **Maintenance Prioritization:**  
-   - Use predicted failure types to allocate maintenance resources efficiently  
-
-3. **Operational Guidelines:**  
-   - Avoid low speed/high torque or high speed/low torque zones for prolonged periods  
-
-4. **Further Data Collection:**  
-   - Include additional machine sensors or environmental data to improve accuracy  
-
----
-
-##  Requirements / Dependencies
-See `requirements.txt` for full package list
-
----
-
-## 🚀 How to Run
-1. Clone the repository:  
 ```bash
-git clone https://github.com/yourusername/manufacturing-predictive-maintenance.git
+git clone https://github.com/ahmedhamdy-DS/manufacturing-predictive-maintenance.git
+cd manufacturing-predictive-maintenance
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## Repository Structure
+
+A typical project structure for this solution includes the application entry point, dependencies, and model workflow assets used to support the Streamlit dashboard. The repository is organized to make local setup straightforward and to keep the deployment-ready dashboard reproducible.
+
+---
+
+## Author
+
+Ahmed Hamdy Abdelaziz
+
+## Contact
+
+- GitHub: [@ahmedhamdy-DS](https://github.com/ahmedhamdy-DS)
+- Portfolio: [my-web-3ciq.vercel.app](https://my-web-3ciq.vercel.app)
+- LinkedIn: [linkedin.com/in/My-profile](https://www.linkedin.com/in/ahmed-hamdy-4569a8360/)
