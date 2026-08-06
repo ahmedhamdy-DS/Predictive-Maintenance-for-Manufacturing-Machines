@@ -5,7 +5,7 @@
 A production-ready machine learning project for predicting manufacturing equipment failures from sensor data, helping reduce downtime, improve maintenance planning, and lower operational costs.
 
 ---
-![Dashboard Screenshot](assets\Screenshot 2026-08-06 154115.png)
+![Dashboard Screenshot](assets\Screenshot.png)
 
 ## Project Overview
 
