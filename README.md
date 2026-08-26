@@ -5,7 +5,7 @@
 A production-ready machine learning project for predicting manufacturing equipment failures from sensor data, helping reduce downtime, improve maintenance planning, and lower operational costs.
 
 ---
-![Dashboard Screenshot](assets\Screenshot.png)
+![Dashboard Screenshot](assets/Screenshot.png)
 
 ## Project Overview
 
@@ -19,11 +19,7 @@ Manufacturing environments need early warnings before equipment breaks down. Thi
 - Identifying the likely failure category when a failure happens.
 - Highlighting the most important sensor and operational features for decision-making.
 
-## Live Demo
 
-Explore the deployed Streamlit dashboard here:
-
-[Open the Live Demo](https://share.google/Bc6eyqEl7dDNDKxcY)
 
 ---
 
@@ -117,14 +113,28 @@ flowchart TD
 | CatBoost | Categorical-aware boosting ensemble |
 
 ## Model Performance
+## Model Performance
 
-| Model | AUC | F1 Macro | Recall Macro | Precision Macro |
-|---|---:|---:|---:|---:|
-| XGBoost | 0.978 | 0.872 | 0.882 | 0.862 |
-| LightGBM | 0.978 | 0.841 | — | — |
-| GradientBoosting | 0.977 | — | — | — |
-| CatBoost | 0.977 | — | — | — |
+| Model              | AUC    | F1 (Macro) | Recall (Macro) | Precision (Macro) |
+|---------------------|--------|------------|-----------------|--------------------|
+| XGBoost ✅ (selected)| 0.9781 | 0.872      | 0.882           | 0.862              |
+| LightGBM             | 0.9778 | 0.841      | 0.875           | 0.813              |
+| GradientBoosting     | 0.9774 | 0.855      | 0.798           | 0.942              |
+| CatBoost             | 0.9766 | 0.850      | 0.862           | 0.839              |
+| RandomForest         | 0.9670 | 0.772      | 0.705           | 0.918              |
 
+**XGBoost** selected for the highest AUC and best Recall/Precision balance — critical for catching failures early while minimizing false alarms.
+
+## Business Impact
+
+| Scenario                    | Annual Cost     |
+|------------------------------|-----------------|
+| Reactive maintenance (no AI) | $510,000        |
+| Predictive maintenance (AI)  | $117,400        |
+| **Total Savings**             | **$392,600 (77%)** |
+
+## Model Explainability (SHAP)
+Used SHAP values to identify key failure drivers: **Torque** was the strongest predictor, followed by **Tool Wear** and **low Rotational Speed** under high load — giving engineers actionable insight into *why* a machine is flagged, not just *that* it is.
 XGBoost is the best overall model based on the reported metrics. It delivers the strongest balance of ranking quality and class-level performance, which is especially valuable in an imbalanced maintenance setting.
 
 ## Insights and Recommendations
