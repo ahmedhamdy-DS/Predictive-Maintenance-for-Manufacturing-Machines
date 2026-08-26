@@ -26,6 +26,7 @@ A production-ready machine learning project for predicting manufacturing equipme
 - [Author](#author)
 
 ---
+![Dashboard Screenshot](assets/Screenshot.png)
 
 ## Project Overview
 
@@ -35,9 +36,11 @@ This project builds a **binary classification** solution for predictive maintena
 
 Manufacturing environments need early warnings before equipment breaks down. This project addresses that need by:
 
-- Predicting whether a failure will occur soon
-- Highlighting the most important sensor and operational features for decision-making
-- Translating model performance into measurable business cost savings
+- Predicting whether a failure will occur soon.
+- Identifying the likely failure category when a failure happens.
+- Highlighting the most important sensor and operational features for decision-making.
+
+
 
 ---
 
@@ -130,40 +133,19 @@ flowchart TD
 ---
 
 ## Model Performance
+## Model Performance
 
 | Model              | AUC    | F1 (Macro) | Recall (Macro) | Precision (Macro) |
 |---------------------|--------|------------|-----------------|--------------------|
-| **XGBoost ✅ (selected)** | **0.9781** | **0.872** | **0.882** | 0.862 |
+| XGBoost ✅ (selected)| 0.9781 | 0.872      | 0.882           | 0.862              |
 | LightGBM             | 0.9778 | 0.841      | 0.875           | 0.813              |
 | GradientBoosting     | 0.9774 | 0.855      | 0.798           | 0.942              |
 | CatBoost             | 0.9766 | 0.850      | 0.862           | 0.839              |
 | RandomForest         | 0.9670 | 0.772      | 0.705           | 0.918              |
 
-**XGBoost** was selected for the highest AUC and best Recall/Precision balance — critical for catching failures early while minimizing false alarms in an imbalanced maintenance setting.
-
----
+**XGBoost** selected for the highest AUC and best Recall/Precision balance — critical for catching failures early while minimizing false alarms.
 
 ## Business Impact
-
-Cost impact was calculated on the test set using a confusion matrix–based approach.
-
-| Cost Type                          | Value  |
-|--------------------------------------|--------|
-| Inspection cost (per flagged machine) | $200   |
-| Unplanned failure cost (per machine)  | $5,000 |
-
-**Reactive scenario (no AI):** every actual failure (TP + FN) costs the full failure price.
-```
-Cost = (TP + FN) × $5,000
-```
-
-**Predictive scenario (with AI):**
-- True Positives (correctly flagged) → inspection cost only: `TP × $200`
-- False Positives (unnecessary inspection) → inspection cost: `FP × $200`
-- False Negatives (missed failure) → still costs full failure price: `FN × $5,000`
-```
-Cost = (TP × $200) + (FP × $200) + (FN × $5,000)
-```
 
 | Scenario                    | Annual Cost     |
 |------------------------------|-----------------|
@@ -171,18 +153,9 @@ Cost = (TP × $200) + (FP × $200) + (FN × $5,000)
 | Predictive maintenance (AI)  | $117,400        |
 | **Total Savings**             | **$392,600 (77%)** |
 
-> Note: Cost figures ($200 inspection, $5,000 failure) are illustrative assumptions used to demonstrate the ROI calculation methodology, not audited figures from a real manufacturing plant.
-
 ## Model Explainability (SHAP)
-
-Used SHAP values to identify key failure drivers, giving engineers actionable insight into *why* a machine is flagged — not just *that* it is:
-
-1. **Torque** is the strongest predictor — abnormally high torque is the top signal of an upcoming breakdown
-2. **Tool Wear** is the ticking clock — risk rises steadily as tool wear increases
-3. **Low rotational speed under high torque** ("lugging") signals extreme mechanical strain
-4. **Temperatures** are secondary symptoms compared to torque, wear, and speed
-
----
+Used SHAP values to identify key failure drivers: **Torque** was the strongest predictor, followed by **Tool Wear** and **low Rotational Speed** under high load — giving engineers actionable insight into *why* a machine is flagged, not just *that* it is.
+XGBoost is the best overall model based on the reported metrics. It delivers the strongest balance of ranking quality and class-level performance, which is especially valuable in an imbalanced maintenance setting.
 
 ## Insights and Recommendations
 
