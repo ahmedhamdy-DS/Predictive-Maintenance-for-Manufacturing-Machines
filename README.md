@@ -25,8 +25,7 @@ A production-ready machine learning project for predicting manufacturing equipme
 - [How to Run](#how-to-run)
 - [Author](#author)
 
----
-![Dashboard Screenshot](assets/Screenshot.png)
+
 
 ## Project Overview
 
