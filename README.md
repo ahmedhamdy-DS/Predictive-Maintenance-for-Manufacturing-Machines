@@ -1,15 +1,36 @@
 # Predictive Maintenance for Manufacturing Machines
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Open%20Dashboard-brightgreen)](https://share.google/Bc6eyqEl7dDNDKxcY)
+[![Python](https://img.shields.io/badge/Python-3.13-blue)](https://www.python.org/)
+[![XGBoost](https://img.shields.io/badge/Model-XGBoost-orange)](https://xgboost.readthedocs.io/)
 
-A production-ready machine learning project for predicting manufacturing equipment failures from sensor data, helping reduce downtime, improve maintenance planning, and lower operational costs.
+A production-ready machine learning project for predicting manufacturing equipment failures from sensor data — helping reduce downtime, improve maintenance planning, and lower operational costs.
+
+![Dashboard Screenshot](assets/Screenshot.png)
+
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Problem Statement](#problem-statement)
+- [System Architecture](#system-architecture)
+- [Data Description](#data-description)
+- [Key Exploratory Insights](#key-exploratory-insights)
+- [Modeling Pipeline](#data-preprocessing--modeling-pipeline)
+- [Models Tested](#models-tested)
+- [Model Performance](#model-performance)
+- [Business Impact](#business-impact)
+- [Model Explainability (SHAP)](#model-explainability-shap)
+- [Insights and Recommendations](#insights-and-recommendations)
+- [How to Run](#how-to-run)
+- [Author](#author)
 
 ---
 ![Dashboard Screenshot](assets/Screenshot.png)
 
 ## Project Overview
 
-This project builds both **binary classification** and **multi-class classification** solutions for predictive maintenance. The binary task predicts whether a machine will fail in the near future, while the multi-class task identifies the likely failure type. The solution is designed around key operational signals such as temperature, torque, rotational speed, and tool wear.
+This project builds a **binary classification** solution for predictive maintenance, predicting whether a machine will fail in the near future based on key operational signals such as temperature, torque, rotational speed, and tool wear.
 
 ## Problem Statement
 
@@ -48,13 +69,13 @@ flowchart LR
 | Target type | Binary target: 0 = Normal, 1 = Failure |
 | Product types | L, M, H |
 | Core sensor features | Air temperature, Process temperature, Rotational speed, Torque, Tool wear |
-| Failure types | Heat Dissipation, Power, Overstrain |
+| Failure modes observed | Heat Dissipation, Power, Overstrain |
 
 ## Key Exploratory Insights
 
-The dataset is highly imbalanced, with failures making up about 3.4% of all observations. Heat Dissipation and Power Failure are the most frequent failure modes, which makes class imbalance a central modeling challenge. Tool wear is the strongest predictor of failure, and rotational speed shows a negative correlation with torque.
+The dataset is highly imbalanced, with failures making up about **3.4%** of all observations. Heat Dissipation and Power Failure are the most frequent failure modes, making class imbalance a central modeling challenge. Tool wear is the strongest predictor of failure, and rotational speed shows a negative correlation with torque.
 
-Failures also cluster in two operational regions: low speed with high torque, and high speed with low torque. Product type L shows the highest failure rate, making it an important segment for maintenance prioritization.
+Failures also cluster in two operational regions: low speed with high torque, and high speed with low torque. Product type **L** shows the highest failure rate, making it an important segment for maintenance prioritization.
 
 ---
 
@@ -78,8 +99,6 @@ flowchart TD
     F --> G[Prediction and evaluation]
 ```
 
-## Preprocessing Pipeline
-
 | Feature group | Processing |
 |---|---|
 | Numeric features | Median imputation + standard scaling |
@@ -97,7 +116,6 @@ flowchart TD
 | Torque [Nm] | Numeric | Load indicator |
 | Tool wear [min] | Numeric | Wear and degradation signal |
 | Product type | Categorical | Operational context |
-| Additional recorded variables | Mixed | Supporting predictive signal |
 
 ## Models Tested
 
@@ -111,6 +129,8 @@ flowchart TD
 | XGBoost | Gradient boosting ensemble |
 | LightGBM | Efficient gradient boosting ensemble |
 | CatBoost | Categorical-aware boosting ensemble |
+
+---
 
 ## Model Performance
 ## Model Performance
@@ -139,7 +159,11 @@ XGBoost is the best overall model based on the reported metrics. It delivers the
 
 ## Insights and Recommendations
 
-The analysis shows that tool wear is the strongest predictor, so it should receive the highest monitoring priority. Product type L has the highest failure rate, which suggests it may require stricter inspection schedules or tailored operating limits. The most practical interventions are predictive maintenance scheduling, maintenance prioritization, and operational guideline updates to avoid high-strain zones.
+- **Tool wear** is the strongest predictor and should receive the highest monitoring priority
+- **Product type L** has the highest failure rate and may need stricter inspection schedules or tailored operating limits
+- Most practical interventions: predictive maintenance scheduling, maintenance prioritization by product type, and operational guideline updates to avoid high-strain zones (low speed + high torque)
+
+---
 
 ## How to Run
 
@@ -150,18 +174,16 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Repository Structure
-
-A typical project structure for this solution includes the application entry point, dependencies, and model workflow assets used to support the Streamlit dashboard. The repository is organized to make local setup straightforward and to keep the deployment-ready dashboard reproducible.
+**Tech stack:** Python, scikit-learn, XGBoost, LightGBM, CatBoost, SHAP, Streamlit, Pandas, Plotly
 
 ---
 
 ## Author
 
-Ahmed Hamdy Abdelaziz
-
-## Contact
+**Ahmed Hamdy Abdelaziz**
 
 - GitHub: [@ahmedhamdy-DS](https://github.com/ahmedhamdy-DS)
 - Portfolio: [my-web-3ciq.vercel.app](https://my-web-3ciq.vercel.app)
-- LinkedIn: [linkedin.com/in/My-profile](https://www.linkedin.com/in/ahmed-hamdy-4569a8360/)
+- LinkedIn: [linkedin.com/in/ahmed-hamdy-4569a8360](https://www.linkedin.com/in/ahmed-hamdy-4569a8360/)
+
+If you'd like to discuss this project or data science topics in general, feel free to connect on LinkedIn.
