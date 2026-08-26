@@ -19,11 +19,7 @@ Manufacturing environments need early warnings before equipment breaks down. Thi
 - Identifying the likely failure category when a failure happens.
 - Highlighting the most important sensor and operational features for decision-making.
 
-## Live Demo
 
-Explore the deployed Streamlit dashboard here:
-
-[Open the Live Demo](https://share.google/Bc6eyqEl7dDNDKxcY)
 
 ---
 
